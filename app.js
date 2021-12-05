@@ -100,7 +100,7 @@ app.get('/filter/:mealtype',(req,res) => {
 // restaurants Details
 app.get('/details/:id',(req,res) => {
     var id = req.params.id
-    db.collection('restaurant').find({restaurant_id:Number(id)}).toArray((err,result)=>{
+    db.collection('restaurants').find({restaurant_id:Number(id)}).toArray((err,result)=>{
         if(err) throw err;
         res.send(result)
     })
