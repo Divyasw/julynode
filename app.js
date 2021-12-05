@@ -31,8 +31,23 @@ app.get('/location',(req,res) =>{
 })
 
 //list of restaurant
+app.get('/restaurants',(req,res) =>{
+    db.collection('restaurants').find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+
+// query example
 app.get('/restaurant',(req,res) =>{
-    db.collection('restaurant').find().toArray((err,result)=>{
+    var query = {}
+    if(req.query.stateId){
+        query={state_id:Number(req.query.stateId)}
+    }else if(req.query.mealtype_id){
+        query={"mealTypes.mealtype_id":req.query.mealtype}
+    }
+    db.collection('restaurants').find(query).toArray((err,result)=>{
         if(err) throw err;
         res.send(result)
     })
@@ -41,20 +56,6 @@ app.get('/restaurant',(req,res) =>{
 //list of QuickSearches
 app.get('/quicksearch',(req,res) =>{
     db.collection('mealtype').find().toArray((err,result)=>{
-        if(err) throw err;
-        res.send(result)
-    })
-})
-
-// query example
-app.get('/restaurant',(req,res) =>{
-    var query = {}
-    if(req.query.cityId){
-        query={city:req.query.cityId}
-    }else if(req.query.mealtype){
-        query={"type.mealtype":req.query.mealtype}
-    }
-    db.collection('restaurant').find(query).toArray((err,result)=>{
         if(err) throw err;
         res.send(result)
     })
