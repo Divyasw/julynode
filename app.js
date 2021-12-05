@@ -6,9 +6,12 @@ const dotenv = require('dotenv')
 dotenv.config()
 const mongo = require('mongodb');
 const MongoClient = mongo.MongoClient;
+const cors = require('cors');
 // to receive data from form
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+app.use(cors());
+
 //const mongourl = "mongodb://localhost:27017"
 const mongourl = "mongodb+srv://divya_123:divya123@cluster0.pbtgo.mongodb.net/zomato?retryWrites=true&w=majority"
 
