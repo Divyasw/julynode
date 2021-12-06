@@ -101,7 +101,18 @@ app.get('/filter/:mealtype',(req,res) => {
 // restaurants Details
 app.get('/details/:id',(req,res) => {
     var id = req.params.id
+    console.log(id)
     db.collection('restaurants').find({restaurant_id:Number(id)}).toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+//menu Details
+app.get('/menu/:id',(req,res) => {
+    var id = req.params.id
+    console.log(id)
+    db.collection('menu').find({restaurant_id:Number(id)}).toArray((err,result)=>{
         if(err) throw err;
         res.send(result)
     })
