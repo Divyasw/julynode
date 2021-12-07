@@ -64,6 +64,8 @@ app.get('/quicksearch',(req,res) =>{
 
 //filterapi
 app.get('/filter/:mealtype',(req,res) => {
+    console.log(req.params)
+    console.log(req.query)
     var sort = {cost:1}
     var skip = 0;
     var limit = 100000000000;
@@ -74,17 +76,17 @@ app.get('/filter/:mealtype',(req,res) => {
         skip = Number(req.query.skip);
         limit = Number(req.query.limit)
     }
-    var mealtype = req.params.mealtype;
+    var mealtype = Number(req.params.mealtype);
     var query = {"mealTypes.mealtype_id":Number(mealtype)};
     if(req.query.cuisine && req.query.lcost && req.query.hcost){
         query={
             $and:[{cost:{$gt:Number(req.query.lcost),$lt:Number(req.query.hcost)}}],
-            "cuisines.cuisine_id":req.query.cuisine,
-            "mealTypes.mealtype_id":mealtype
+            "cuisines.cuisine_id":Number(req.query.cuisine),
+            "mealTypes.mealtype_id":Number(mealtype)
         }
     }
     else if(req.query.cuisine){
-        query = {"mealTypes.mealtype_id":mealtype,"cuisines.cuisine_id":req.query.cuisine }
+        query = {"mealTypes.mealtype_id":mealtype,"cuisines.cuisine_id":Number(req.query.cuisine) }
     }
     else if(req.query.lcost && req.query.hcost){
         var lcost = Number(req.query.lcost);
@@ -168,8 +170,8 @@ app.put('/updateStatus/:id',(req,res) => {
     var id = mongo.ObjectId(req.params.id);
     var status = 'Pending';
     var statuVal =2
-    if(req.query.status){
-        statuVal = Number(req.query.status)
+    if(req.query.statuVal){
+        statuVal = Number(req.query.statuVal)
         if(statuVal == 1){
             status = 'Accepted'
         }else if (statuVal == 0){
