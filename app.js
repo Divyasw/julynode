@@ -54,7 +54,13 @@ app.get('/restaurant',(req,res) =>{
     })
 })
 
-
+//list of QuickSearches
+app.get('/quicksearch',(req,res) =>{
+    db.collection('mealtype').find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
 
 //filterapi
 app.get('/filter/:mealtype',(req,res) => {
